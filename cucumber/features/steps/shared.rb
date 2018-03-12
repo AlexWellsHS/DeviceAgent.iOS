@@ -14,6 +14,13 @@ module DeviceAgent
 
       wait_options = {:timeout => timeout}
 
+      bundle_id = "sh.calaba.TestApp"
+      message = "Waited for #{timeout} seconds for #{bundle_id} to appear in the foreground"
+
+      wait_for(message, {timeout: timeout, retry_frequency: 0.5}) do
+        app_state(bundle_id) == "foreground"
+      end
+
       ["Touch", "Pan", "Rotate/Pinch", "Misc", "Tao"].each do |mark|
         wait_for_view({marked: mark}, wait_options)
       end
